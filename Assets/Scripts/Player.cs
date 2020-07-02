@@ -12,6 +12,13 @@ public class Player : MonoBehaviour
     [SerializeField] float climbSpeed = 5f;
     [SerializeField] Vector2 deathKick = new Vector2(100f, 100f);
 
+    [SerializeField] AudioClip attackSFX;
+    [SerializeField] AudioClip kickSFX;
+    [SerializeField] AudioClip deathSFX;
+
+    [SerializeField] GameObject playerAttackColliderGameObject;
+    [SerializeField] BoxCollider2D playerAttackCollider;
+
     // State
     bool isAlive = true;
 
@@ -40,9 +47,12 @@ public class Player : MonoBehaviour
         Run();
         ClimbLadder();
         Jump();
+        Attack();
         FlipSprite();
         Die();
     }
+
+    
 
     private void Run()
     {
@@ -82,9 +92,38 @@ public class Player : MonoBehaviour
 
         if (CrossPlatformInputManager.GetButtonDown("Jump"))
         {
+            myAnimator.SetTrigger("Jump");
             Vector2 jumpVelocityToAdd = new Vector2(0f, jumpSpeed);
             myRigidBody.velocity += jumpVelocityToAdd;
+
         }
+    }
+
+    private void Attack()
+    {
+        if (CrossPlatformInputManager.GetButtonDown("Fire1"))
+        {
+            int randomAttackInt = Random.Range(1, 3);
+            myAnimator.SetTrigger("Attack" + randomAttackInt);
+            if (randomAttackInt == 1)
+            {
+                AudioSource.PlayClipAtPoint(attackSFX, Camera.main.transform.position);
+            }
+            else if (randomAttackInt == 2)
+            {
+                AudioSource.PlayClipAtPoint(kickSFX, Camera.main.transform.position);
+            }
+        }
+    }
+
+    public void AttackColliderActiveTrue()
+    {
+        playerAttackColliderGameObject.SetActive(true);
+    }
+
+    public void AttackColliderActiveFalse()
+    {
+        playerAttackColliderGameObject.SetActive(false);
     }
 
     private void FlipSprite()
@@ -98,11 +137,20 @@ public class Player : MonoBehaviour
 
     private void Die()
     {
-        if (myBodyCollider2D.IsTouchingLayers(LayerMask.GetMask("Enemy")))
+        if (myBodyCollider2D.IsTouchingLayers(LayerMask.GetMask("Enemy", "Hazards")))
         {
+            AudioSource.PlayClipAtPoint(deathSFX, Camera.main.transform.position, .5f);
             myRigidBody.velocity = deathKick;
             myAnimator.SetTrigger("Die");
             isAlive = false;
+
+            StartCoroutine(ProcessDeathWaitTime());
+
+            IEnumerator ProcessDeathWaitTime()
+            {
+                yield return new WaitForSeconds(2f);
+                FindObjectOfType<GameSession>().ProcessPlayerDeath();
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Fire
   - Ground
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - Player
   - Background
   - Enemy
-  - 
-  - 
+  - Hazards
+  - Interactables
   - 
   - 
   - 
@@ -52,9 +53,15 @@ TagManager:
   - name: Enemy
     uniqueID: 87151581
     locked: 0
+  - name: Hazards
+    uniqueID: 2443274451
+    locked: 0
   - name: Player
     uniqueID: 3103932561
     locked: 0
   - name: Foreground
     uniqueID: 2423065257
+    locked: 0
+  - name: Interactables
+    uniqueID: 3449096635
     locked: 0

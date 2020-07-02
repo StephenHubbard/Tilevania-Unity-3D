@@ -62,8 +62,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\CoinPickup.cs" />
     <Compile Include="Assets\Scripts\EnemyMovement.cs" />
+    <Compile Include="Assets\Scripts\GameSession.cs" />
+    <Compile Include="Assets\Scripts\LevelExit.cs" />
+    <Compile Include="Assets\Scripts\Menu.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\PlayerDamage.cs" />
+    <Compile Include="Assets\Scripts\ScenePersist.cs" />
+    <None Include="Assets\Juggernaut Release\Juggernaut Release\Body Parts\Juggernaut - SpriteSheet.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Unity3d/Projects/Tilevania/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
